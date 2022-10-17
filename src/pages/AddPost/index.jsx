@@ -13,7 +13,7 @@ import styles from "./AddPost.module.scss";
 import { selectIsAuth } from "../../redux/slices/auth";
 
 export const AddPost = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const isAuth = useSelector(selectIsAuth);
 
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export const AddPost = () => {
       const fields = {
         title,
         imageUrl,
-        tags: tags.split(' ').filter(tag => tag !==''),
+        tags: tags.split(" ").filter((tag) => tag !== ""),
         text,
       };
 
@@ -66,10 +66,9 @@ export const AddPost = () => {
       const _id = isEditing ? id : data._id;
 
       navigate(`/posts/${_id}`);
-
     } catch (error) {
       console.warn(error);
-      alert('Failed to create post')
+      alert("Failed to create post");
     }
   };
 
@@ -77,16 +76,16 @@ export const AddPost = () => {
     if (id) {
       axios
         .get(`/posts/${id}`)
-        .then(({data}) => {
+        .then(({ data }) => {
           setTitle(data.title);
           setText(data.text);
           setImageUrl(data.imageUrl);
-          setTags(data.tags.join(' '))
+          setTags(data.tags.join(" "));
         })
-        .catch(error => {
+        .catch((error) => {
           console.warn(error);
-          alert('Failed to edit post');
-        })
+          alert("Failed to edit post");
+        });
     }
   }, []);
 
@@ -135,7 +134,7 @@ export const AddPost = () => {
           </Button>
           <img
             className={styles.image}
-            src={`http://localhost:4444${imageUrl}`}
+            src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
             alt="Uploaded"
           />
         </>
@@ -167,7 +166,7 @@ export const AddPost = () => {
       />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          {isEditing ? 'Сохранить' : 'Опубликовать'}
+          {isEditing ? "Сохранить" : "Опубликовать"}
         </Button>
         <a href="/">
           <Button size="large">Отмена</Button>
